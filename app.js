@@ -49,17 +49,55 @@ artApp.displayArt = function(apiArray){
      
      //create a for each loop to loop through all the information
      apiArray.forEach(function(i){
-          console.log(i);
-          //assign variable to element we are creating to hold image
-          const artContainer = document.createElement('div');
-          artContainer.classList.add('piece');
-          //in each div, we want to add this information:
-          artContainer.innerHTML = `<h2>${i.title}</h2><p>${i.principalOrFirstMaker}</p><img src="${i.webImage.url}" alt="something">`
+          // console.log(i);
 
-          //append the artContainers to the page
-          gallery.appendChild(artContainer);
+          //extract data from API (title, principalOrFirstMaker, webImage.url and longTitle)
+          const artworkTitle = i.title;
+          const artworkImage = i.webImage.url;
+          const artist = i.principalOrFirstMaker;
+          const altText = i.longTitle;
+
+          console.log(artworkTitle, artworkImage, artist, altText);
+
+          //creat an li (with class of "piece" to which this information will be added
+          const liElement= document.createElement('li');
+          liElement.classList.add('piece');
+
+          //create the elements to hold the information, WITHIN the <li> - h2 for title, img for url, and p for artist
+          const heading = document.createElement('h2');
+          heading.textContent = artworkTitle;
+
+          const image = document.createElement('img');
+          //this element has src and alt properties, which we can use
+          image.alt=altText;
+          image.src=artworkImage;
+
+          const paragraph = document.createElement('p');
+          paragraph.classList.add('artist');
+          paragraph.textContent = artist;
+
+          //append these to the li element
+          liElement.appendChild(heading);
+          liElement.appendChild(paragraph);
+          liElement.appendChild(image);
+          
+          //append li to the ul
+          const ulElement = document.getElementById('artwork');
+          ulElement.appendChild(liElement);
+
+          //WHAT I DID ON MY OWN BEFORE:
+          // //assign variable to element we are creating to hold image
+          // const artContainer = document.createElement('div');
+          // artContainer.classList.add('piece');
+          // //in each div, we want to add this information:
+          // artContainer.innerHTML = `<h2>${i.title}</h2><p>${i.principalOrFirstMaker}</p><img src="${i.webImage.url}" alt="${i.longTitle}">`
+
+          // //append the artContainers to the page
+          // gallery.appendChild(artContainer);
      })          
 }
+
+
 
 
 //call init method @ end of code
