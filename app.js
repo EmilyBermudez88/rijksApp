@@ -13,21 +13,25 @@ const artApp = {}
 artApp.rijksURL = 'https://www.rijksmuseum.nl/api/en/collection';
 artApp.apiKey = '8N1r7uUq';
 
+
 //create init method
 artApp.init = function(){
      console.log('initialized');
-     artApp.getArt();
+     artApp.getArt('mice');
 }
 
 //create a method which will make the api call and get data back
-artApp.getArt = function(){
+     //we added a select with options at the end --> so here we made the final step of adding in a parameter, so that we can reassign the value of q:''
+artApp.getArt = function(chosenAnimal){
      //build out the url with url constructors for the api call
      const url = new URL(artApp.rijksURL);
           // console.log(url)
+
+
      url.search = new URLSearchParams({
           key: artApp.apiKey,
           imgonly: true,
-          q:'monkey'
+          q: chosenAnimal
      })
      // console.log(url)
      fetch(url)
@@ -77,9 +81,13 @@ artApp.displayArt = function(apiArray){
           paragraph.textContent = artist;
 
           //append these to the li element
-          liElement.appendChild(heading);
-          liElement.appendChild(paragraph);
-          liElement.appendChild(image);
+               //if you were to chain these- the image would be a child of the paragraph, which would be a child of the heading- need to be separate
+
+               //now you can do 3 different lines of code... or ONE append() to pass multiple items
+          // liElement.appendChild(heading);
+          // liElement.appendChild(paragraph);
+          // liElement.appendChild(image);
+          liElement.append(heading, paragraph, image);
           
           //append li to the ul
           const ulElement = document.getElementById('artwork');
