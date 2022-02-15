@@ -17,7 +17,28 @@ artApp.apiKey = '8N1r7uUq';
 //create init method
 artApp.init = function(){
      console.log('initialized');
-     artApp.getArt('mice');
+     artApp.getArt('bears');
+     artApp.eventListenerSetup();
+};
+
+artApp.eventListenerSetup = function(){
+     //first event lsitener on select element- when user selects different option, take the chosen animal and get art related that animal
+     const selectElement = document.querySelector('#animal')
+     //when user selects different animal option, get art related to new animal
+     selectElement.addEventListener('change', function(){
+          //inside the eventListener, 'this' refers to the selectElement- this is the thing that is changing!- so when you console.log(this), it will show you over and over the the select element - with an event listener, the select element will store information (because it has an event listener assigned to it), in this case, the value
+          console.log(this);
+          console.log(this.value);
+          const userChoice = this.value;
+          artApp.getArt(userChoice) ;
+          artApp.updateH1(userChoice);
+     })
+}
+
+//create a method which will update the heading on the page (this comes after we've built out displaying things on pages, and after we built out a select function to get userChoice)
+artApp.updateH1 = function(animal){
+     const span = document.querySelector('span');
+     span.textContent = animal;
 }
 
 //create a method which will make the api call and get data back
@@ -47,9 +68,9 @@ artApp.getArt = function(chosenAnimal){
 }
 
 artApp.displayArt = function(apiArray){
-     //assign variables element holding all our information
-     const gallery = document.getElementById('artwork');
-     
+     //clear gallery before adding new art to the page- create UL element variable, and clear anything inside of it (think as well that displayArt is being called in the init function as well, with a hard code of 'monkeys' to get something on page)
+     const ulElement = document.getElementById('artwork');
+     ulElement.innerHTML = "";
      
      //create a for each loop to loop through all the information
      apiArray.forEach(function(i){
@@ -61,7 +82,7 @@ artApp.displayArt = function(apiArray){
           const artist = i.principalOrFirstMaker;
           const altText = i.longTitle;
 
-          console.log(artworkTitle, artworkImage, artist, altText);
+          // console.log(artworkTitle, artworkImage, artist, altText);
 
           //creat an li (with class of "piece" to which this information will be added
           const liElement= document.createElement('li');
@@ -90,10 +111,11 @@ artApp.displayArt = function(apiArray){
           liElement.append(heading, paragraph, image);
           
           //append li to the ul
-          const ulElement = document.getElementById('artwork');
           ulElement.appendChild(liElement);
 
           //WHAT I DID ON MY OWN BEFORE:
+          // //assign variables element holding all our information
+          // const gallery = document.getElementById('artwork');
           // //assign variable to element we are creating to hold image
           // const artContainer = document.createElement('div');
           // artContainer.classList.add('piece');
