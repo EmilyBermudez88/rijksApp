@@ -42,8 +42,24 @@ artApp.getArt = function(){
           })
 }
 
+artApp.displayArt = function(apiArray){
+     //assign variables element holding all our information
+     const gallery = document.getElementById('artwork');
+     
+     
+     //create a for each loop to loop through all the information
+     apiArray.forEach(function(i){
+          console.log(i);
+          //assign variable to element we are creating to hold image
+          const artContainer = document.createElement('div');
+          artContainer.classList.add('piece');
+          //in each div, we want to add this information:
+          artContainer.innerHTML = `<h2>${i.title}</h2><p>${i.principalOrFirstMaker}</p><img src="${i.webImage.url}" alt="something">`
 
-
+          //append the artContainers to the page
+          gallery.appendChild(artContainer);
+     })          
+}
 
 
 //call init method @ end of code
